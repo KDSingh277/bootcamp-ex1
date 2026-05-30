@@ -1,65 +1,220 @@
+# Using GitHub Copilot Ask Mode with a New Repository
 
-# CPSC 349 - Web Front-End Engineering
+## Purpose
 
-## Exercise 3 - Fall 2022
+In this activity, you will use GitHub Copilot Chat in [Ask mode](https://docs.github.com/en/copilot/how-tos/chat-with-copilot/chat-in-ide?tool=vscode#ask-mode) to understand an unfamiliar codebase.
 
-### What are we trying to accomplish?
+The goal is to practice a professional habit:
 
-In this exercise you will use JavaScript to implement a fundamental interaction pattern for web applications: fetching data from a REST API and updating the DOM tree to display the data as HTML.
+> Understand the code before changing the code.
 
-## Steps to complete this exercise
+## Repository
 
-Before you begin this exercise you should have completed the *[Understanding the DOM — Document Object Model](https://www.digitalocean.com/community/books/understanding-the-dom-document-object-model-ebook)* [eBook](https://www.digitalocean.com/community/books/understanding-the-dom-document-object-model-ebook).
+[`bootcamp-ex1`](https://github.com/ProfAvery/bootcamp-ex1) is a web app that displays posts and comments from [JSONPlaceholder](https://jsonplaceholder.typicode.com/).
 
-1. Clone the [cpsc349-exercise3](https://github.com/ProfAvery/cpsc349-exercise3) repository, then run `npm install` and `npm start`.
+---
 
-2. The text in `posts.html comes` from the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API.
+## What Ask Mode Is Good For
 
-   Examine the following URLs, and compare them to the text that you find in the HTML:
+Use Ask mode when you need help understanding:
 
-    * [https://jsonplaceholder.typicode.com/posts/1](https://jsonplaceholder.typicode.com/posts/1)
+- What a repository does
+- How files relate to each other
+- What a function does
+- What an unfamiliar API call does
+- What an error message means
+- Where data comes from
+- Where data appears on the page
+- What code runs first
+- What code runs later because of a user action
 
-    * [https://jsonplaceholder.typicode.com/users/1](https://jsonplaceholder.typicode.com/users/1)
+---
 
-    * [https://jsonplaceholder.typicode.com/posts/1/comments](https://jsonplaceholder.typicode.com/posts/1/comments)
+## Basic  Workflow
 
-3. The current page contains static HTML, but we can retrieve data live from the API. Open the [console](https://javascript.info/devtools) and reload the page.
+1. Open the project folder in VS Code.
+2. Open Copilot Chat.
+3. Choose **Ask** mode.
+4. Ask one small question.
+5. Read the answer.
+6. **Check the actual code** to see whether the answer is correct.
+7. Ask a follow-up question.
+8. Write down what you learned.
 
-   You should see an array of 10 objects retrieved by the `downloadPosts()` function in `comments.js`. Click the disclosure triangle to reveal the array’s contents. Compare the contents of the array with [https://jsonplaceholder.typicode.com/posts?\_page=1](https://jsonplaceholder.typicode.com/posts?_page=1).
+---
 
-4. Use the [Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) to add each downloaded post as an `<article>`.
+## Tip: What to do when you're confused
 
-   For each `<article>` tag:
+Use this prompt pattern:
 
-    * Set the `data-post-id` attribute to the `id` field of the post.
+```text
+I am a beginner. I am trying to understand [specific thing].
+Explain [file/function/error/concept] in plain language.
 
-    * Create an `<h2>` with the contents of the title field.
+Do not change code.
 
-    * Create an `<aside>` and fill in the `<span>` by calling `getUserName()` and passing the `userId` field.
+Tell me what file or function I should inspect next.
+```
 
-    * Create the `<p>` tag by replacing `'\n'` characters with `<br>` tags.
+---
 
-    * Add a `<details>` section, including the `<summary>`, `<section>`, `<header>`, and `<h3>` tags, but do not add any `<aside>` tags.
+## Danger Zone
 
-    * Add a toggle event listener to the `<details>` section.
+1. Copilot may be wrong.
+2. Copilot may overlook details.
+3. Copilot may describe code that is not actually there.
+4. Copilot may suggest commands that do not apply to this project.
+5. Always verify answers in the code.
+6. Do not paste secrets, passwords, API keys, or private tokens.
+7. Do not accept code changes during this activity.
+8. Do not run a command unless you understand what it does.
+9. Prefer small questions over giant prompts.
+10. When confused, ask Copilot to explain, **not to fix**.
 
-5. Remove the static `<article>` and `<details>` tags from `posts.html`, and demonstrate that all 10 articles are created dynamically when the page loads.
+---
 
-6. Returning to the console, if your `<details>` sections and toggle event listeners were added correctly, you should see that clicking “See what our readers had to say…” for each article should download and log the comments for the correct `postId`.
+## Activity
 
-7. Add each comment as an `<aside>` tag using the `body` and `name` fields for the two paragraphs.
+### Part 1: First Contact
 
-   You will need to replace `'\n'` characters with `<br>` tags again, so define this as a separate function if you have not already done so.
+Ask Copilot:
 
-8. Finally, check that everything continues to work when you change
+> Explain this repository in beginner-friendly terms. What kind of app is it, and what are the most important files?
 
-   ```
-   downloadPosts()
-   ```
+Then answer the questions in this section of the worksheet.
 
-   in comments.js to
-   ```
-   downloadPosts(2)
-   ```
+### Part 2: Understand the HTML Page
 
-   to see the second page. Check that the articles, user names, and comments are downloaded and populated correctly.
+Open `posts.html`.
+
+Ask Copilot:
+
+> Explain `posts.html` in beginner-friendly terms. What does this file do?
+
+Then answer the questions in this section of the worksheet.
+
+Things to notice:
+
+- The page has a `<header>`.
+- The JavaScript file is loaded at the bottom of `<body>`.
+- The script uses `type="module"`.
+
+### Part 3: Understand the CSS
+
+Open `titles.css`.
+
+Ask Copilot:
+
+> Explain this CSS rule in beginner-friendly terms:
+
+```text
+h2, p::first-letter {
+    text-transform: capitalize;
+}
+```
+
+Combine this information with what you know about `posts.html` to answer the questions in this section of the worksheet.
+
+### Part 4: Identify the Data Sources
+
+Open `comments.js`.
+
+Ask Copilot:
+
+> What external APIs does `comments.js` call? List each URL pattern and explain what data it returns.
+
+Write down the URLs in the worksheet.
+
+Now ask:
+
+> What is JSONPlaceholder, and why might this project use it?
+
+Then answer the rest of the questions in this section of the worksheet.
+
+### Part 5: Understand the Three Download Functions
+
+Ask Copilot:
+
+> Explain these three functions in beginner-friendly terms:  `downloadPosts`, `downloadComments`, and `getUserName`
+
+Ask additional clarifying questions to answer the rest of the questions in this section of the worksheet.
+
+*Note*: you may need to do this from now on.
+
+### Part 6: Trace How Posts Appear on the Page
+
+Ask Copilot:
+
+> Trace how posts are downloaded and added to the page. Start with this line: `const posts = await downloadPosts(2)`
+
+Then answer the rest of the questions in this section of the worksheet.
+
+---
+
+### Part 7: Understand `dataset`
+
+Ask Copilot:
+
+> Explain this line in beginner-friendly terms: `article.dataset.postId = post.id`
+
+Then ask:
+
+> How is that `postId` value used later when downloading comments?
+
+Then answer the rest of the questions in this section of the worksheet.
+
+### Part 8: Understand the Comments Section
+
+Ask Copilot:
+
+> Explain how the `<details>` and `<summary>` elements are used in this app.
+
+Then ask:
+
+> Why does the code create one `<details>` element after each `<article>`?
+
+Use this information to answer the  questions in this section of the worksheet.
+
+### Part 9: Trace What Happens When Comments Are Opened
+
+Ask Copilot:
+
+> Trace what happens when a user opens a comments section. Start with the toggle event listener.
+
+Use this information to answer the questions in this section of the worksheet.
+
+### Part 10: Understand `getArticleId`
+
+Ask Copilot:
+
+> Explain this function in beginner-friendly terms:
+
+```text
+function getArticleId (comments) {
+  const article = comments.previousElementSibling
+  const data = article.dataset
+  return data.postId
+}
+```
+
+Use this information to answer the questions in this section of the worksheet.
+
+### Part 11: Find One Possible Bug or Weakness
+
+Ask Copilot:
+
+> Do not change code. Identify one possible bug, weakness, or confusing part of this app. Explain it in beginner-friendly terms.
+>
+> Choose only one issue.
+
+Describe the issue Copilot suggested by answering the first two questions in this section of the worksheet.
+
+Now verify the suggested issue yourself, and record your results.
+
+### Part 12: Ask for an Improvement Plan
+
+Ask Copilot:
+
+> Do not edit code. Suggest three small improvements a beginner could make to this app later. For each one, list the file that would probably change.
+
+Record the suggestions in this section of the worksheet.
